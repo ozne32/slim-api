@@ -2,7 +2,6 @@
 
 use Slim\App;
 use Illuminate\Database\Capsule\Manager as Capsule;
-return function (App $app) {
     $container = $app->getContainer();
 
     // view renderer
@@ -20,9 +19,9 @@ return function (App $app) {
         return $logger;
     };
     $container['db']=function($c){
-        $capsule = new Capsule;
-        $arr = $c->get('settings');//isso vai retornar tudo nós só queremos uma parte, ent
-        $capsule->addConnection($arr['db']);
+        $capsule = new Capsule; //um jeito fácil de fazer a conexão com o banco de dados
+        $arr = $c->get('settings')['db'];//isso vai retornar tudo nós só queremos uma parte, ent
+        $capsule->addConnection($arr);
         // posso fazer desta form, porém tem como recuperar as coisas em settings.php
         // $capsule->addConnection([
         //     'driver'=>'mysql',
@@ -36,5 +35,5 @@ return function (App $app) {
         // ]);
         $capsule->setAsGlobal();
         $capsule->bootEloquent();
+        return $capsule;
     };
-};
